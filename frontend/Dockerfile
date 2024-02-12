@@ -4,12 +4,13 @@ FROM node:latest
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+COPY ./package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install npm
+RUN apt-get update && apt-get install -y npm
 
 # Expose port 3000 and start development server
 EXPOSE 3000
-CMD ["npm", "run", "dev"]
+
+# Command to run the application
+CMD npm install && npm run build && npm run dev -- --open --host

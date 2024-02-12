@@ -14,16 +14,24 @@ services:
       - .env                
     networks:
       - app-network
+      
+  frontend:
+    container_name: ssmp-fe
+    volumes:
+      - ./frontend/app:/app
+    build:
+      dockerfile: ./frontend/Dockerfile
+    networks:
+      - app-network
+    ports:
+      - "3000:5173"
 
   mysql:
     container_name: ssmp-mysql
     image: mysql:latest
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: db_name
-      MYSQL_USER: db_user
-      MYSQL_PASSWORD: db_password
+    env_file:
+      - .env        
     ports:
       - "3306:3306"
     volumes:
